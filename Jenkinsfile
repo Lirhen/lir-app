@@ -150,7 +150,6 @@ pipeline {
             script {
                 if (env.BRANCH_NAME == 'main') {
                     echo "Production deployment failed! Rolling back..."
-                    // Add rollback logic here if needed
                 }
             }
         }
