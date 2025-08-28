@@ -32,7 +32,7 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME == 'main') {
                         env.IMAGE_TAG = "latest-${BUILD_NUMBER}"
-                    } else if (env.BRANCH_NAME.startsWith('PR-')) {
+                    } else if (env.CHANGE_ID) {
                         env.IMAGE_TAG = "pr-${CHANGE_ID}-${BUILD_NUMBER}"
                     } else {
                         env.IMAGE_TAG = "${BRANCH_NAME}-${BUILD_NUMBER}"
