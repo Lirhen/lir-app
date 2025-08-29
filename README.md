@@ -173,7 +173,7 @@ docker logs jenkins
 
 ### 3.3 Jenkins Initial Configuration
 
-1. **Access Jenkins**: http://your-jenkins-server-ip:8080
+1. **Access Jenkins**: http://JENKINS-PUBLIC-IP:8080
 2. **Enter initial admin password** from logs
 3. **Install suggested plugins** plus additional required plugins:
    - Docker Pipeline
@@ -217,7 +217,7 @@ pipeline {
         stage('Test SSH') {
             steps {
                 sshagent(['production-ssh-key']) {
-                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@10.0.1.83 "echo SSH connection successful"'
+                    sh 'ssh -o StrictHostKeyChecking=no ec2-user@PRODUCTION-PRIVATE-IP "echo SSH connection successful"'
                 }
             }
         }
@@ -356,14 +356,14 @@ python3 api.py
 **Step 4: Test Application Access**
 ```bash
 # Open new SSH session to production server (keep app running in first session)
-ssh -i your-key.pem ec2-user@10.0.1.83
+ssh -i your-key.pem ec2-user@PRODUCTION-PRIVATE-IP
 
 # Test health endpoint locally
 curl http://localhost:5000/health
 # Expected: {"status":"ok"}
 
 # Test from external access (if Security Group allows port 5000)
-curl http://10.0.1.83:5000/health
+curl http://PRODUCTION-PRIVATE-IP:5000/health
 ```
 
 **Step 5: Test Docker Build Manually**
@@ -395,7 +395,7 @@ If you need external access for health checks, update Security Group:
 3. Add Inbound Rule:
    - Type: Custom TCP
    - Port: 5000
-   - Source: Jenkins server IP (10.0.1.254) or 0.0.0.0/0
+   - Source: Jenkins server IP (JENKINS-PRIVATE-IP) or 0.0.0.0/0
 
 Test external access:
 ```bash
